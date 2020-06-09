@@ -1,7 +1,7 @@
 // Requires
 var express = require("express");
 var mongoose = require("mongoose");
-// var bodyParser = require("body-parser");
+var bodyParser = require("body-parser");
 
 // Inicializar variables
 var app = express();
@@ -19,13 +19,13 @@ var app = express();
 
 // Body Parser
 // parse application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Importar rutas
-// var appRoutes = require("./routes/app");
-// var usuarioRoutes = require("./routes/usuario");
-// var loginRoutes = require("./routes/login");
+var appRoutes = require("./routes/app");
+var usuarioRoutes = require("./routes/usuario");
+var loginRoutes = require("./routes/login");
 // var hospitalRoutes = require("./routes/hospital");
 // var medicoRoutes = require("./routes/medico");
 // var busquedaRoutes = require("./routes/busqueda");
@@ -47,22 +47,16 @@ mongoose.connection.openUri(
 // app.use(express.static(__dirname + '/'))
 // app.use('/uploads', serveIndex(__dirname + '/uploads'));
 
-// Rutas
-app.get("/", (req, res, next) => {
-  res.status(200).json({
-    ok: true,
-    mensaje: "Petición realizada correctamente",
-  });
-});
-// app.use("/usuario", usuarioRoutes);
+// Rutas -> Middleware
+app.use("/usuario", usuarioRoutes);
 // app.use("/hospital", hospitalRoutes);
 // app.use("/medico", medicoRoutes);
-// app.use("/login", loginRoutes);
+app.use("/login", loginRoutes);
 // app.use("/busqueda", busquedaRoutes);
 // app.use("/upload", uploadRoutes);
 // app.use("/img", imagenesRoutes);
 
-// app.use("/", appRoutes);
+app.use("/", appRoutes);
 
 // Escuchar peticiones
 app.listen(3000, () => {
